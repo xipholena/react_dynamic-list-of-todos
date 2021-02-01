@@ -1,0 +1,108 @@
+ ToDOList
+ 
+ <li className="TodoList__item TodoList__item--unchecked">
+          <label>
+            <input type="checkbox" readOnly />
+            <p>delectus aut autem</p>
+          </label>
+
+          <button
+            className="
+              TodoList__user-button
+              TodoList__user-button--selected
+              button
+            "
+            type="button"
+          >
+            User&nbsp;#1
+          </button>
+        </li>
+
+        <li className="TodoList__item TodoList__item--checked">
+          <label>
+            <input type="checkbox" checked readOnly />
+            <p>distinctio vitae autem nihil ut molestias quo</p>
+          </label>
+
+          <button
+            className="TodoList__user-button button"
+            type="button"
+          >
+            User&nbsp;#2
+          </button>
+        </li>
+
+
+
+
+=======
+
+
+export class TodoList extends React.Component {
+    state = {
+
+    }
+  render() {
+  const {todos, selectedUserId, selectUser, selectedTodoId, selectTodo, getUsers} = this.props;
+  //console.log(todos)
+  //console.log(selectedUserId)
+  //console.log(getUsers)
+    return (
+    
+      <div className="TodoList">
+      <h2>Todos:</h2>
+  
+      <div className="TodoList__list-container">
+        <ul className="TodoList__list">
+          {todos.map(todo=> {
+           // console.log(todo.id, todo.userId)
+            return (
+              <li 
+              key={todo.id}
+              
+              className={classNames('TodoList__item', {'TodoList__item--unchecked': true, 'TodoList__item--checked': false})}
+            >
+            <label>
+              <input type="checkbox" readOnly />
+              <p>{todo.title}</p>
+            </label>
+            {selectedTodoId === todo.id ? ( //selectedUserId === todo.userId
+            <button
+              className="TodoList__user-button button TodoList__user-button--selected"
+              type="button"
+              onClick={()=> {
+                selectTodo(0); //предыдущий клик был на другой отрендеренной кнопке, текущий клик происходит на выбранном юзере и означает, что он уже не выбран
+                selectUser(0);
+              }}
+            >
+              User&nbsp;#{todo.userId}
+            </button>
+            ) : (
+              <button
+              className="TodoList__user-button button "
+              type="button"
+              //onClick={()=> {selectUser(todo.userId)}}
+              onClick={()=> {
+                selectTodo(todo.id);
+                selectUser(todo.userId);
+                getUsers(todo.userId);
+              }}
+            >
+              User&nbsp;#{todo.userId}
+            </button>
+            )}
+            
+          </li>
+            )
+            
+          }
+        )}
+        </ul>
+      </div>
+    </div>
+    )
+  }
+  
+}
+
+//className={classNames('TodoList__user-button', 'button', {'TodoList__user-button--selected': true } )}
